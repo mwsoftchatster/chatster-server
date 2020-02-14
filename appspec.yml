@@ -1,0 +1,49 @@
+version: 0.0
+os: linux
+files:
+  - source: /chatster_api/chatster_api.js
+    destination: /opt/chatster_backend/chatster_api/
+  - source: /chatster_api/functions.js
+    destination: /opt/chatster_backend/chatster_api/
+  - source: /chatster_api_notifications/chatster_api_notifications.js
+    destination: /opt/chatster_backend/chatster_api_notifications/
+  - source: /chatster_api_notifications/functions.js
+    destination: /opt/chatster_backend/chatster_api_notifications/
+  - source: /chatster_config/chatster_config.js
+    destination: /opt/chatster_backend/chatster_config/
+  - source: /chatster_db/chatster_db.js
+    destination: /opt/chatster_backend/chatster_db/
+  - source: /chatster_email/chatster_email.js
+    destination: /opt/chatster_backend/chatster_email/
+  - source: /chatster_time/chatster_time.js
+    destination: /opt/chatster_backend/chatster_time/
+  - source: /chatster_creators/chatster_creators.js
+    destination: /opt/chatster_backend/chatster_creators/
+  - source: /chatster_creators/functions.js
+    destination: /opt/chatster_backend/chatster_creators/
+  - source: /socketio_chat/chatster_socketio_chat.js
+    destination: /opt/chatster_backend/socketio_chat/
+  - source: /socketio_chat/functions.js
+    destination: /opt/chatster_backend/socketio_chat/
+  - source: /socketio_group_chat/chatster_socketio_group_chat.js
+    destination: /opt/chatster_backend/socketio_group_chat/
+  - source: /socketio_group_chat/functions.js
+    destination: /opt/chatster_backend/socketio_group_chat/
+  - source: /package.json
+    destination: /opt/chatster_backend/
+hooks:
+  BeforeInstall:
+    - location: chatster_aws_scripts/install_dependencies.sh
+      timeout: 300
+      runas: root 
+  ApplicationStop:
+    - location: chatster_aws_scripts/stop_server_services.sh
+      timeout: 300
+      runas: root
+    - location: chatster_aws_scripts/delete_previous_files.sh
+      timeout: 300
+      runas: root
+  ApplicationStart:
+    - location: chatster_aws_scripts/start_server_services.sh
+      timeout: 300
+      runas: root   
